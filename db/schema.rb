@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160606070227) do
+ActiveRecord::Schema.define(version: 20160606103021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,12 +44,10 @@ ActiveRecord::Schema.define(version: 20160606070227) do
     t.text     "content"
     t.integer  "votes"
     t.integer  "user_id"
-    t.integer  "tag_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "questions", ["tag_id"], name: "index_questions_on_tag_id", using: :btree
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
@@ -70,6 +68,5 @@ ActiveRecord::Schema.define(version: 20160606070227) do
   add_foreign_key "answers", "users"
   add_foreign_key "comments", "answers"
   add_foreign_key "comments", "questions"
-  add_foreign_key "questions", "tags"
   add_foreign_key "questions", "users"
 end

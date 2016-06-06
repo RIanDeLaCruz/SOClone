@@ -7,17 +7,20 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <nav class="topNav">
-    <div class="logo">
-      <a href="#">Stack Overflow Clone</a>
-    </div>
-    <div class="links">
-      <a href="#">Sign Up</a>
-      <a href="#">Log In</a>
-    </div>
-  </nav>
-
-<%= yield %>
+  <header>
+    <nav class="topNav">
+      <div class="logo">
+        <a href="#">Stack Overflow Clone</a>
+      </div>
+      <div class="links">
+        <a href="#">Sign Up</a>
+        <a href="#">Log In</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <%= yield %>
+  </main>
 
 </body>
 </html>

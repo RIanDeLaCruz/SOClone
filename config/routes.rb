@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :questions do
-    resources :answers do
-      resources :comments
-    end
-    resources :comments
+    # resources :answers do
+    #   resources :comments
+    # end
+    # resources :comments
   end
   # get 'tag/:id'
   # The priority is based upon order of creation: first created -> highest priority.

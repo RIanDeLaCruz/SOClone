@@ -5,7 +5,6 @@ class CreateQuestions < ActiveRecord::Migration
       t.text :content
       t.integer :votes
       t.references :user, index: true, foreign_key: true
-      t.references :tag, index: true, foreign_key: true
 
       t.timestamps null: false
     end

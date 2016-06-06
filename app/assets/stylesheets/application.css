@@ -17,7 +17,24 @@
    box-sizing: border-box;
  }
 
+ body {
+   margin: 0;
+   font-family: sans-serif;
+ }
+
  .topNav {
    display: flex;
    justify-content: space-between;
+   background-color: rgb(25, 58, 70);
+   padding: 32px;
  }
+
+  .topNav a {
+    color: white;
+    text-decoration: none;
+  }
+
+main {
+  width: 80vw;
+  margin: 0 auto;
+}
