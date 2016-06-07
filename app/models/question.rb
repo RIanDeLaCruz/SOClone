@@ -6,19 +6,18 @@ class Question < ActiveRecord::Base
   has_many :comments
 
   def tag_list
-    self.tags.map{ |t| t.name }.join(',')
+    self.tags.map{ |t| t.title }.join(',')
   end
 
   def tag_list=(new_value)
     tag_names = new_value.split(/,\s+/)
     tag_names.each do |tag|
       if(!Tag.exists?(title: tag))
-        tag = Tag.create(title: tag)
-        self.tags << tag
-        tag.questions << self
+        _new_tag = Tag.create(title: tag)
+        self.tags << _new_tag
       else
-        self.tags << tag
-        tag.questions << self
+        _new_tag = Tag.new(title: tag)
+        self.tags << _new_tag
       end
     end
   end

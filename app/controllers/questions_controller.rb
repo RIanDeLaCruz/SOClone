@@ -7,6 +7,10 @@ class QuestionsController < ApplicationController
     # @question = Question.new(params[:question])
     @question = Question.new(question_params)
     @question.save
+    redirect_to @question
+  end
+  def show
+    @question = Question.find(params[:id])
   end
   private
     # Using a private method to encapsulate the permissible parameters

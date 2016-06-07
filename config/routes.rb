@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     # end
     # resources :comments
   end
+
+  get 'tags' => 'tags#show'
+  get 'tag/:title' => 'tags#index'
   # get 'tag/:id'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
