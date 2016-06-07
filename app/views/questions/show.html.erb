@@ -1,3 +1,4 @@
+<%= link_to "Ask New Question", controller: "questions", action: "new" %>
 <p>
   <strong>Title:</strong>
   <%= @question.title %>
@@ -11,3 +12,4 @@
   <h2>Tags</h2>
   <%= @question.tag_list %>
 </p>
+<%= link_to "Answer", new_question_answer_path(@question.id) %>

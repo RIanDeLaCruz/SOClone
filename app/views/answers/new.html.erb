@@ -1,0 +1,12 @@
+<%= form_for [@question, @answer] do |f| %>
+<p>
+  <%= f.label :body %><br>
+  <%= f.text_area :body %>
+</p>
+<p>
+  <%= f.submit %>
+</p>
+<p>
+  <%= @question_id %>
+</p>
+<% end %>
