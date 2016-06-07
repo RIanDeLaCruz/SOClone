@@ -11,6 +11,7 @@ class QuestionsController < ApplicationController
   end
   def show
     @question = Question.find(params[:id])
+    @answers = Answer.where(question_id: params[:id]).pluck(:body)
   end
   private
     # Using a private method to encapsulate the permissible parameters

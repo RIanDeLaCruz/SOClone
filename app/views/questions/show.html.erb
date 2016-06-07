@@ -12,4 +12,17 @@
   <h2>Tags</h2>
   <%= @question.tag_list %>
 </p>
-<%= link_to "Answer", new_question_answer_path(@question.id) %>
+<%= form_for :answer, url: question_answers_path(@question) do |f| %>
+<p>
+  <%= f.label :body %><br>
+  <%= f.text_area :body %>
+</p>
+<p>
+  <%= f.submit %>
+</p>
+<% end %>
+<ul>
+<% @answers.each do |answer| %>
+  <li><%= answer %></li>
+<% end %>
+</ul>
