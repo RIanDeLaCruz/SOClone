@@ -9,9 +9,12 @@ class QuestionsController < ApplicationController
     @question.save
     redirect_to @question
   end
+  def index
+    @questions = Question.all
+  end
   def show
     @question = Question.find(params[:id])
-    @answers = Answer.where(question_id: params[:id]).pluck(:body)
+    @answers = Answer.where(question_id: params[:id]).pluck("id, body")
   end
   private
     # Using a private method to encapsulate the permissible parameters

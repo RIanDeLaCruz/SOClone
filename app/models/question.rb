@@ -4,7 +4,7 @@ class Question < ActiveRecord::Base
 
   has_many :answers
   has_many :comments
-
+  has_many :votes, :as => :votable
   def tag_list
     self.tags.map{ |t| t.title }.join(',')
   end

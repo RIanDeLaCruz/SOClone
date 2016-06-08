@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :questions do
-    resources :answers, :only => :create
-    # resources :comments
+    resources :answers, only: [:create] do
+      resources :comments, :only => :create
+    end
   end
 
   get 'tags' => 'tags#index'
