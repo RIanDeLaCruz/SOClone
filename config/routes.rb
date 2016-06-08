@@ -1,14 +1,17 @@
 Rails.application.routes.draw do
-  get 'votes/upvote'
-
-  get 'votes/downvote'
-
   root 'welcome#index'
 
   resources :questions do
+    post 'votes/upvote'
+    post 'votes/downvote'
     resources :answers, only: [:create] do
       resources :comments, :only => :create
     end
+  end
+
+  resources :answers, only: [] do
+    post "votes/upvote"
+    post "votes/downvote"
   end
 
   get 'tags' => 'tags#index'

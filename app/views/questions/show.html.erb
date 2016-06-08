@@ -15,9 +15,10 @@
     <%= @question.tag_list %>
   </p>
   <p>
-    <%= @votes.length %>
+    <%= @upvotes.length-@downvotes.length %>
   </p>
-  <%= link_to "Upvote", controller: "votes", action: "upvote", id:@question.id %>
+  <%= link_to "Upvote", question_votes_upvote_path(@question.id), method: :post %>
+  <%= link_to "Downvote", question_votes_downvote_path(@question.id), method: :post %>
 </div>
 <%= form_for :answer, url: question_answers_path(@question) do |f| %>
 <p>
@@ -29,9 +30,9 @@
 </p>
 <% end %>
 <ul style="list-style-type:none;">
-<% @answers.each do |answer| %>
+<% @answers.each_with_index do |answer, index| %>
   <li style="padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
-    <%= answer[1] %>
+    <%= answer.body %>
     <%= form_for :comment, url: question_answer_comments_path(@question, answer) do |f| %>
     <p>
       <%= f.label "Reply to Answer" %><br>
@@ -49,6 +50,9 @@
         </li>
       <% end %>
     </ul>
+    <%= @answers_upvotes[index].length-@answers_downvotes[index].length %>
+    <%= link_to "Upvote", answer_votes_upvote_path(answer), method: :post %>
+    <%= link_to "Downvote", answer_votes_downvote_path(answer), method: :post %>
   </li>
 <% end %>
 </ul>
