@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'votes/upvote'
+
+  get 'votes/downvote'
+
   root 'welcome#index'
 
   resources :questions do
