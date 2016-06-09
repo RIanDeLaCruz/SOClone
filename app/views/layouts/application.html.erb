@@ -19,7 +19,11 @@
     </nav>
   </header>
   <main>
+    <% flash.each do |message_type, message| %>
+      <p><%= message %></p>
+    <% end %>
     <%= yield %>
+    <%= debug(params) %>
   </main>
 
 </body>
