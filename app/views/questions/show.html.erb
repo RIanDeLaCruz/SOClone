@@ -14,7 +14,12 @@
     <h2>Tags</h2>
     <%= @question.tag_list %>
   </p>
+  <% if logged_in? && session[:user_id] == @question.user_id %>
+    <%= link_to "Edit", edit_question_path(@question) %>
+  <% end %>
   <p>
+    <%= @upvotes.length %>
+    <%= @downvotes.length %>
     <%= @upvotes.length-@downvotes.length %>
   </p>
   <%= link_to "Upvote", question_votes_upvote_path(@question.id), method: :post %>

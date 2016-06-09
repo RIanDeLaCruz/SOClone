@@ -1,0 +1,26 @@
+<h1>Edit Question</h1>
+<%= form_for :question, url: question_path(@question), method: :patch do |f| %>
+  <% if @question.errors.any? %>
+    <%= pluralize(@question.errors.count, "error") %> errors stopped this question from being saved.
+    <ul>
+      <% @question.errors.fill_messages.each do |msg| %>
+        <li>
+          <%= msg %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :content %>
+  <%= f.text_area :content %>
+
+  <%= f.label :tags %>
+  <%= f.text_field :tag_list %>
+
+  <%= f.submit %>
+
+<% end %>
+
+<%= link_to 'Back', questions_path %>

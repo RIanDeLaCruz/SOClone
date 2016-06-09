@@ -1,42 +1,52 @@
 class VotesController < ApplicationController
   def upvote
     @vote = Vote.new
-    @vote.type = "upvote"
+    @vote.vote_type = "upvote"
     # Change the method of getting the votable_id
     # As it stands, the votable_id is assigned to the question
     # Method should be to get the id of the either the Answer or the Question
     @vote.votable_id = if params[:question_id].present? then params[:question_id] else params[:answer_id] end
     @vote.votable_type =  if params[:question_id].present? then 'Question' else 'Answer' end
-
-    if @vote.save
-      if params[:question_id].present?
-        redirect_q = Question.find(params[:question_id])
-        redirect_to redirect_q
-      else
-        q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
-        redirect_q = Question.find(q_id) 
-        redirect_to redirect_q
+    @vote.user_id = session[:user_id]
+    
+    _check_vote = Vote.find_by(votable_id: @vote.votable_id, user_id: session[:user_id], vote_type: "upvote") 
+    if _check_vote == nil
+      if @vote.save
+        if params[:question_id].present?
+          redirect_q = Question.find(params[:question_id])
+          redirect_to redirect_q
+        else
+          q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
+          redirect_q = Question.find(q_id) 
+          redirect_to redirect_q
+        end
       end
-
+    else
+      flash[:message] = "You can upvote only once"
     end 
   end
 
   def downvote
     @vote = Vote.new
-    @vote.type = "downvote"
+    @vote.vote_type = "downvote"
     @vote.votable_id = if params[:question_id].present? then params[:question_id] else params[:answer_id] end
     @vote.votable_type =  if params[:question_id].present? then 'Question' else 'Answer' end
-
-    if @vote.save
-      if params[:question_id].present?
-        redirect_q = Question.find(params[:question_id])
-        redirect_to redirect_q
-      else
-        q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
-        redirect_q = Question.find(q_id) 
-        redirect_to redirect_q
+    @vote.user_id = session[:user_id]
+    
+    _check_vote = Vote.find_by(votable_id: @vote.votable_id, user_id: session[:user_id], vote_type: "downvote")  
+    if _check_vote == nil
+      if @vote.save
+        if params[:question_id].present?
+          redirect_q = Question.find(params[:question_id])
+          redirect_to redirect_q
+        else
+          q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
+          redirect_q = Question.find(q_id) 
+          redirect_to redirect_q
+        end
       end
-
+    else 
+      flash[:message] = "You can only downvote once"
     end 
   end
 

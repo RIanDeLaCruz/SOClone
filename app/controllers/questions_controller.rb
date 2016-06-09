@@ -17,15 +17,20 @@ class QuestionsController < ApplicationController
     _counter = 0
     @question = Question.find(params[:id])
     @answers = Answer.where(question_id: params[:id])
-    @upvotes = Vote.where(votable_id: params[:id], type: "upvote").ids
-    @downvotes = Vote.where(votable_id: params[:id], type: "downvote").ids
+    @upvotes = Vote.where(votable_id: params[:id], vote_type: "upvote").ids
+    @downvotes = Vote.where(votable_id: params[:id], vote_type: "downvote").ids
     @answers_upvotes = []
     @answers_downvotes = []
     @answers.each do |answer|
-      @answers_upvotes << Vote.where(votable_id: answer.id, type: "upvote", votable_type: "Answer").ids
-      @answers_downvotes << Vote.where(votable_id: answer.id, type: "downvote", votable_type: "Answer").ids
+      @answers_upvotes << Vote.where(votable_id: answer.id, vote_type: "upvote", votable_type: "Answer").ids
+      @answers_downvotes << Vote.where(votable_id: answer.id, vote_type: "downvote", votable_type: "Answer").ids
     end
   end
+  
+  def edit
+    @question = Question.find(params[:id])
+  end
+
   private
     # Using a private method to encapsulate the permissible parameters
     # is just a good pattern since you'll be able to reuse the same
