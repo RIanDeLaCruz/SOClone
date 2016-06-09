@@ -17,8 +17,12 @@ class QuestionsController < ApplicationController
     _counter = 0
     @question = Question.find(params[:id])
     @answers = Answer.where(question_id: params[:id])
-    @upvotes = Vote.where(votable_id: params[:id], vote_type: "upvote").ids
-    @downvotes = Vote.where(votable_id: params[:id], vote_type: "downvote").ids
+    @upvotes = Vote.where(votable_id: params[:id], vote_type: "upvote").pluck("id, vote_value")
+    @downvotes = Vote.where(votable_id: params[:id], vote_type: "downvote").pluck("id, vote_value")
+    @total_votes  = 0
+    @upvotes.each do |vote|
+      @total_votes += vote[1]
+    end
     @answers_upvotes = []
     @answers_downvotes = []
     @answers.each do |answer|
