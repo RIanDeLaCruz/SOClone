@@ -6,6 +6,7 @@ class QuestionsController < ApplicationController
     # render plain: params[:question].inspect
     # @question = Question.new(params[:question])
     @question = Question.new(question_params)
+    @question.user_id = current_user.id
     @question.save
     redirect_to @question
   end
@@ -31,6 +32,6 @@ class QuestionsController < ApplicationController
     # permit list between create and update. Also, you can specialize
     # this method with per-user checking of permissible attributes.
     def question_params
-      params.require(:question).permit(:title, :content, :tags, :tag_list)
+      params.require(:question).permit(:title, :content, :tags, :tag_list, :user_id)
     end
 end

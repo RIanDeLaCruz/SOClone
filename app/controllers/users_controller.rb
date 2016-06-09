@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    @questions = Question.where(user_id: session[:user_id])
   end
 
   private

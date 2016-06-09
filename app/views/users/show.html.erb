@@ -4,3 +4,12 @@
   <%= @user.name %>
 </h1>
 <%= @user.name %>, <%= @user.email %>
+<h2>Questions</h2>
+  <ul>
+<% @questions.each do |question| %>
+  <li>
+    <h3><%= link_to question.title, question_path(question) %></h3>
+    <p><%= question.content %></p>
+  </li>  
+<% end %>
+</ul>
