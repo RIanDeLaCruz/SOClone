@@ -19,9 +19,6 @@
   <% end %>
   <p>
     <%= @total_votes %>
-    <%= @upvotes.length %>
-    <%= @downvotes.length %>
-    <%= @upvotes.length-@downvotes.length %>
   </p>
   <%= link_to "Upvote", question_votes_upvote_path(@question.id), method: :post %>
   <%= link_to "Downvote", question_votes_downvote_path(@question.id), method: :post %>
