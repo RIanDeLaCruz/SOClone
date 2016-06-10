@@ -37,23 +37,6 @@
 <% @answers.each_with_index do |answer, index| %>
   <li style="padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
     <%= answer.body %>
-    <%= form_for :comment, url: question_answer_comments_path(@question, answer) do |f| %>
-    <p>
-      <%= f.label "Reply to Answer" %><br>
-      <%= f.text_area :body %>
-    </p>
-    <p>
-      <%= f.submit %>
-    </p>
-    <% end %>
-    <% @comments = Comment.where(answer_id: params[:id], answer_id: answer[0]).pluck(:body) %>
-    <ul>
-      <% @comments.each do |comment|  %>
-        <li style="box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
-          <%= comment %>
-        </li>
-      <% end %>
-    </ul>
     <%= @answers_upvotes[index].length-@answers_downvotes[index].length %>
     <%= link_to "Upvote", answer_votes_upvote_path(answer), method: :post %>
     <%= link_to "Downvote", answer_votes_downvote_path(answer), method: :post %>
