@@ -41,3 +41,47 @@ main {
   /*.card {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }*/
+  .questions_indexList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+    .questions_listItem {
+      padding: 10px 20px;
+      border-bottom: solid 1px #000;
+      display: flex;
+    }
+
+      .question_title {
+        text-decoration: none;
+        display: inline-block;
+        width: 30%;
+      }
+
+      .question_title:visited {
+        color: blue;
+      }
+
+      .question_content {
+        display: inline-block;
+        width: 60%;
+      }
+
+      .question_actions {
+        display: inline-flex;
+        justify-content: space-around;
+        width: 10%; 
+      }
+        .action_link {
+          display: flex;
+          align-items:center;
+          color:black;
+        }
+
+        .action_link:visited {
+          color: black;
+        }
+
+        .action_link.disabled {
+          color: gray;
+        }
