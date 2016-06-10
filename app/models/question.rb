@@ -1,9 +1,9 @@
 class Question < ActiveRecord::Base
   belongs_to :user
   has_and_belongs_to_many :tags
-
+  
   has_many :answers, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  has_many :comments, :as => :commentable, dependent: :destroy
   has_many :votes, :as => :votable
 
   def tag_list
@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
 
   def tag_list=(new_value)
     tag_names = new_value.split(/,\s+/)
+    self.tags.destroy_all
     tag_names.each do |tag|
       if(Tag.find_by title: tag)
         _new_tag = Tag.new(title: tag)

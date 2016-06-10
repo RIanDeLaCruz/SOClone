@@ -46,6 +46,12 @@ main {
     margin: 0;
     padding: 0;
   }
+    @media (min-width: 768px) {
+      .questions_indexList {
+        width: 70vw;
+        margin: 0 auto;
+      }
+    }
     .questions_listItem {
       padding: 10px 20px;
       border-bottom: solid 1px #000;
@@ -76,6 +82,7 @@ main {
           display: flex;
           align-items:center;
           color:black;
+          padding: 0 5px;
         }
 
         .action_link:visited {
