@@ -1,5 +1,5 @@
 <h1>Edit Question</h1>
-<%= form_for :question, url: question_path(@question), method: :patch do |f| %>
+<%= form_for @question, method: :patch do |f| %>
   <% if @question.errors.any? %>
     <%= pluralize(@question.errors.count, "error") %> errors stopped this question from being saved.
     <ul>

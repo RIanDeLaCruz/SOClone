@@ -37,12 +37,28 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
   end
 
+  def update
+    @question = Question.find(params[:id])
+    if @question.update(question_params)
+      redirect_to @question
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @question = Question.find(params[:id])
+    @question.destroy
+
+    redirect_to questions_path
+  end
+
   private
     # Using a private method to encapsulate the permissible parameters
     # is just a good pattern since you'll be able to reuse the same
     # permit list between create and update. Also, you can specialize
     # this method with per-user checking of permissible attributes.
     def question_params
-      params.require(:question).permit(:title, :content, :tags, :tag_list, :user_id)
+      params.require(:question).permit(:title, :content, :tag_list, :user_id)
     end
 end
