@@ -10,26 +10,46 @@ class QuestionsController < ApplicationController
     @question.save
     redirect_to @question
   end
+
   def index
     @questions = Question.all
   end
+
   def show
     _counter = 0
     @question = Question.find(params[:id])
     @answers = Answer.where(question_id: params[:id])
-    @upvotes = Vote.where(votable_id: params[:id], vote_type: "upvote").pluck("id, vote_value")
-    @downvotes = Vote.where(votable_id: params[:id], vote_type: "downvote").pluck("id, vote_value")
+    
+    @upvotes = Vote.where(votable_id: params[:id], 
+                          vote_type: "upvote"
+                         ).pluck("id, vote_value")
+    
+    @downvotes = Vote.where(votable_id: params[:id], 
+                            vote_type: "downvote"
+                           ).pluck("id, vote_value")
 
-    @total_vote_query= Vote.where(votable_id: params[:id], user_id: session[:user_id]).pluck("vote_value")
+    @total_vote_query= Vote.where(votable_id: params[:id], 
+                                  user_id: session[:user_id]
+                                 ).pluck("vote_value")
     @total_votes  = 0
     @total_vote_query.each do |vote|
       @total_votes += vote
     end
-    @answers_upvotes = []
-    @answers_downvotes = []
-    @answers.each do |answer|
-      @answers_upvotes << Vote.where(votable_id: answer.id, vote_type: "upvote", votable_type: "Answer").ids
-      @answers_downvotes << Vote.where(votable_id: answer.id, vote_type: "downvote", votable_type: "Answer").ids
+
+    @answer_upvotes = []
+    @answer_downvotes = []
+    @answers.each do |answer| 
+      @answer_upvotes += answer.votes.upvotes.pluck("vote_value")
+      # raise @answer_upvotes.inspect
+      @answer_downvotes += answer.votes.downvotes.pluck("vote_value")
+    end
+    # raise @answer_upvotes.inspect
+    @answer_total = 0
+    @answer_upvotes.each do |upvote|
+      @answer_total += upvote
+    end 
+    @answer_downvotes.each do |downvote|
+      @answer_total += downvote
     end
   end
   

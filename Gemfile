@@ -15,6 +15,8 @@ gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby
 gem 'bcrypt'
 
+gem 'haml'
+
 gem 'font-awesome-sass'
 
 # Use jquery as the JavaScript library

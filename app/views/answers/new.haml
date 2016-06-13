@@ -1,0 +1,8 @@
+= form_for [@question, @answer] do |f|
+  %p
+    = f.label :body
+    %br
+    = f.text_area :body
+  %p= f.submit
+  %p= @question_id
+

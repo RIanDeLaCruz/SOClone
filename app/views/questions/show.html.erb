@@ -37,14 +37,18 @@
 <% @answers.each_with_index do |answer, index| %>
   <li style="padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
     <%= answer.body %>
-    <%= @answers_upvotes[index].length-@answers_downvotes[index].length %>
+    <%= @answer_total %>
     <%= link_to "Upvote", answer_votes_upvote_path(answer), method: :post %>
     <%= link_to "Downvote", answer_votes_downvote_path(answer), method: :post %>
     <%= link_to "Comment", edit_answer_path(answer) %>
+    <ul style="list-style-type:none; margin-top: 20px;">
     <% answer.comments.each do |view_comment| %>
-      <p><%= view_comment.body %>
-      <p style="padding-left: 20px;"><%= view_comment.user_id %>
+      <li style="padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+        <p><%= view_comment.body %>
+        <p style="padding-left: 20px;"><%= view_comment.user_id %>
+      </li>
     <% end %>
+  </ul>
   </li>
 <% end %>
 </ul>

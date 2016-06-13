@@ -1,0 +1,7 @@
+= form_for @answer do |f|
+  = f.fields_for :comments, @new_comment do |comment|
+    Comment: 
+    = comment.text_field :body
+  end
+  = f.submit
+end

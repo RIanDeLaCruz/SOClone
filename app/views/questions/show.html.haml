@@ -1,0 +1,31 @@
+= link_to "Ask New Question", controller: "questions", action: "new"
+= link_to "See all Questions", controller: "questions", action: "index"
+
+.card
+  %p
+    %strong Title:
+    = @question.title
+  %p
+    %strong Text:
+    = @question.content
+  %p
+    %h2 Tags
+    = @question.tag_list
+  -if logged_in? && session[:user_id] == @question.user_id
+    = link_to "Edit", edit_question_path(@question)
+    = link_to "Delete", question_path(@question), method: :delete, data: {confirm: "This cannot be undone"}
+    %p= @total_votes
+    = link_to "Upvote", question_votes_upvote_path(@question.id), method: :post
+    = link_to "Downvote", question_votes_downvote_path(@question.id), method: :post
+= form_for :answer, url: question_answers_path(@question) do |f|
+  %p
+    = f.label "Answer"
+    %br
+    = f.text_area :body
+  %p
+    = f.submit
+%ul{:style => "list-style-type:none;"}
+  - @answers.each_with_index do |answer, index|
+    %li{:style => "padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);"}
+      = answer.body
+      = @answers.upvotes[index].length
