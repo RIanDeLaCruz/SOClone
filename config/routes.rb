@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :answers, only: [] do
+  resources :answers, only: [:update, :edit] do
     post "votes/upvote"
     post "votes/downvote"
   end

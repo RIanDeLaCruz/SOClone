@@ -6,7 +6,7 @@
     <!--    <li style="display:block; width: 48%; padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);"> -->
       <li class="questions_listItem">
         <%= link_to question_path(question), :class => 'question_title' do%>
-          <p><%= question.title %></p>
+          <p><%= truncate(question.title, length: 100){ link_to "Read More", questions_path(question)} %></p>
         <% end %>
       <p class="question_content" >
         <%= question.content %>

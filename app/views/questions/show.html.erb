@@ -40,6 +40,11 @@
     <%= @answers_upvotes[index].length-@answers_downvotes[index].length %>
     <%= link_to "Upvote", answer_votes_upvote_path(answer), method: :post %>
     <%= link_to "Downvote", answer_votes_downvote_path(answer), method: :post %>
+    <%= link_to "Comment", edit_answer_path(answer) %>
+    <% answer.comments.each do |view_comment| %>
+      <p><%= view_comment.body %>
+      <p style="padding-left: 20px;"><%= view_comment.user_id %>
+    <% end %>
   </li>
 <% end %>
 </ul>

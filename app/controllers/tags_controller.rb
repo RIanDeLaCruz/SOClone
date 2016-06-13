@@ -4,5 +4,7 @@ class TagsController < ApplicationController
   end
 
   def show
+    @tag = Tag.find_by_title(params[:title])
+    @qs = @tag.questions 
   end
 end
