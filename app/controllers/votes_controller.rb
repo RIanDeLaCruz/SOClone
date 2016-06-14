@@ -1,4 +1,5 @@
 class VotesController < ApplicationController
+  
   def upvote
      if params[:question_id]
         @question = Question.find params[:question_id]
