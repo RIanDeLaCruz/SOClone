@@ -20,3 +20,4 @@ class AnswersController < ApplicationController
       permit :body, :question_id, :user_id
   end
 end
+
