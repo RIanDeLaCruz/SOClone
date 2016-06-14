@@ -1,4 +1,5 @@
 class Answer < ActiveRecord::Base
+  
   belongs_to :user
   belongs_to :question
   belongs_to :parent_post, :class_name => 'Answer'
@@ -8,8 +9,13 @@ class Answer < ActiveRecord::Base
 
   accepts_nested_attributes_for :comments
 
+  
+  
+  
+  
   def total_votes
     self.votes.sum('vote_value')
   end
 
 end
+
