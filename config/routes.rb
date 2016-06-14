@@ -5,13 +5,13 @@ Rails.application.routes.draw do
     post 'votes/upvote'
     post 'votes/downvote'
     resources :answers, only: [:create] do
-      resources :comments, :only => :create
     end
   end
 
   resources :answers, only: [:update, :edit] do
     post "votes/upvote"
     post "votes/downvote"
+    resources :comments, :only => :create
   end
 
   get 'tags' => 'tags#index'

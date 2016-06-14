@@ -1,0 +1,12 @@
+- provide(:title, @user.name)
+%h1
+  = gravatar_for @user
+  = @user.name
+= @user.name, @user.email
+%h2 Questions
+%ul
+  - @questions.each do |question|
+    %li
+      %h3
+        = link_to question.title, question_path(question)
+      %p= question.content

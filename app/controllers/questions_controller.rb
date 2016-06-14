@@ -3,10 +3,7 @@ class QuestionsController < ApplicationController
 
   end
   def create
-    # render plain: params[:question].inspect
-    # @question = Question.new(params[:question])
-    @question = Question.new(question_params)
-    @question.user_id = current_user.id
+    @question = current_user.questions.build question_params
     @question.save
     redirect_to @question
   end
@@ -17,20 +14,20 @@ class QuestionsController < ApplicationController
 
   def show
     _counter = 0
-    @question = Question.find(params[:id])
-    @answers = Answer.where(question_id: params[:id])
+    @question = Question.find params[:id]
+    @answers = Answer.where question_id: params[:id]
     
     @upvotes = Vote.where(votable_id: params[:id], 
-                          vote_type: "upvote"
-                         ).pluck("id, vote_value")
+                          vote_type: 'upvote'
+                         ).pluck 'id, vote_value'
     
     @downvotes = Vote.where(votable_id: params[:id], 
-                            vote_type: "downvote"
-                           ).pluck("id, vote_value")
+                            vote_type: 'downvote'
+                           ).pluck 'id, vote_value'
 
     @total_vote_query= Vote.where(votable_id: params[:id], 
                                   user_id: session[:user_id]
-                                 ).pluck("vote_value")
+                                 ).pluck 'vote_value'
     @total_votes  = 0
     @total_vote_query.each do |vote|
       @total_votes += vote
@@ -39,9 +36,9 @@ class QuestionsController < ApplicationController
     @answer_upvotes = []
     @answer_downvotes = []
     @answers.each do |answer| 
-      @answer_upvotes += answer.votes.upvotes.pluck("vote_value")
+      @answer_upvotes += answer.votes.upvotes.pluck 'vote_value'
       # raise @answer_upvotes.inspect
-      @answer_downvotes += answer.votes.downvotes.pluck("vote_value")
+      @answer_downvotes += answer.votes.downvotes.pluck 'vote_value'
     end
     # raise @answer_upvotes.inspect
     @answer_total = 0
@@ -54,12 +51,12 @@ class QuestionsController < ApplicationController
   end
   
   def edit
-    @question = Question.find(params[:id])
+    @question = Question.find params[:id]
   end
 
   def update
-    @question = Question.find(params[:id])
-    if @question.update(question_params)
+    @question = Question.find params[:id]
+    if @question.update question_params
       redirect_to @question
     else
       render 'edit'
@@ -67,18 +64,17 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question = Question.find(params[:id])
+    @question = Question.find params[:id]
     @question.destroy
 
     redirect_to questions_path
   end
 
   private
-    # Using a private method to encapsulate the permissible parameters
-    # is just a good pattern since you'll be able to reuse the same
-    # permit list between create and update. Also, you can specialize
-    # this method with per-user checking of permissible attributes.
-    def question_params
-      params.require(:question).permit(:title, :content, :tag_list, :user_id)
-    end
+  
+  def question_params
+    params.
+      require(:question).
+      permit :title, :content, :tag_list, :user_id
+  end
 end

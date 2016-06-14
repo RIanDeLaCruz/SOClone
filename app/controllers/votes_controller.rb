@@ -1,98 +1,42 @@
 class VotesController < ApplicationController
   def upvote
-    @vote = Vote.new
-    @vote.vote_type = "upvote"
+     if params[:question_id]
+        @question = Question.find(params[:question_id])
+        @voteable = @question
+     else
+       @answer = Answer.find(params[:answer_id])
+       @question = @answer.question
+       @voteable = @answer
+     end
+     
+     @vote = @voteable.votes.find_or_create_by(votable_id: @voteable.id, user_id: session[:user_id])
+     @vote.user_id = session[:user_id]
 
-    @vote.votable_id = if params[:question_id].present? then params[:question_id] else params[:answer_id] end
-    @vote.votable_type =  if params[:question_id].present? then 'Question' else 'Answer' end
-    @vote.user_id = session[:user_id]
-    @vote.vote_value = 1
-    
-    _check_vote = Vote.find_by(votable_id: @vote.votable_id, user_id: session[:user_id], vote_type: "upvote") 
-    _all_votes_for_question = Vote.where(votable_id: @vote.votable_id, user_id: session[:user_id]).pluck("vote_value")  
-    if _check_vote == nil
-      if @vote.save
-        if params[:question_id].present?
-          redirect_q = Question.find(params[:question_id])
-          redirect_to redirect_q
-        else
-          q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
-          redirect_q = Question.find(q_id) 
-          redirect_to redirect_q
-        end
-      end
-    else
-      _total = 0
-      _all_votes_for_question.each do |vote|
-        # raise _all_votes_for_question.inspect
-        if vote != nil
-          _total += vote
-        end
-      end
-      if _total == 0 || _total == -1
-        if @vote.save
-          if params[:question_id].present?
-            redirect_q = Question.find(params[:question_id])
-            redirect_to redirect_q
-          else
-            q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
-            redirect_q = Question.find(q_id) 
-            redirect_to redirect_q
-          end
-        end
-      else
-        flash[:message] = "You can only downvote #{_total}"
-      end 
-    end
+     @vote.vote_value = @vote.vote_value.to_i+1
+
+     @vote.save if @vote.vote_value <= 1
+
+     redirect_to @question
   end
 
   def downvote
-    @vote = Vote.new
-    @vote.vote_type = "downvote"
-    @vote.votable_id = if params[:question_id].present? then params[:question_id] else params[:answer_id] end
-    @vote.votable_type =  if params[:question_id].present? then 'Question' else 'Answer' end
+    if params[:question_id]
+      @question = Question.find(params[:question_id])
+      @voteable = @question
+    else
+      @answer = Answer.find(params[:answer_id])
+      @question = @answer.question
+      @voteable = @answer
+    end
+     
+    @vote = @voteable.votes.find_or_create_by(votable_id: @voteable.id, user_id: session[:user_id])
     @vote.user_id = session[:user_id]
-    @vote.vote_value = -1
-    
-    _check_vote = Vote.find_by(votable_id: @vote.votable_id, 
-                               user_id: session[:user_id], 
-                               vote_type: "downvote")
-    _all_votes_for_question = Vote.where(votable_id: @vote.votable_id, 
-                                         user_id: session[:user_id]
-                                        ).pluck("vote_value")  
-    if _check_vote == nil
-      if @vote.save
-        if params[:question_id].present?
-          redirect_q = Question.find(params[:question_id])
-          redirect_to redirect_q
-        else
-          q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
-          redirect_q = Question.find(q_id) 
-          redirect_to redirect_q
-        end
-      end
-    else 
-      _total = 0
-      _all_votes_for_question.each do |vote|
-        if vote != nil
-          _total += vote
-        end
-      end
-      if _total == 0 || _total == 1
-        if @vote.save
-          if params[:question_id].present?
-            redirect_q = Question.find(params[:question_id])
-            redirect_to redirect_q
-          else
-            q_id = Answer.where(id: params[:answer_id]).pluck("question_id")
-            redirect_q = Question.find(q_id) 
-            redirect_to redirect_q
-          end
-        end
-      else
-        flash[:message] = "You can only downvote #{_total}"
-      end
-    end 
+
+    @vote.vote_value = @vote.vote_value.to_i-1
+
+    @vote.save if @vote.vote_value >= -1
+
+     redirect_to @question
   end
 
   private 

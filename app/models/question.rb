@@ -1,4 +1,5 @@
 class Question < ActiveRecord::Base
+  
   belongs_to :user
   
   has_many :answers, dependent: :destroy
@@ -7,24 +8,36 @@ class Question < ActiveRecord::Base
 
   has_and_belongs_to_many :tags
 
+
+
+
+
+  def total_votes
+    self.votes.sum :vote_value
+  end
+
+
+
+
+
   def tag_list
     # self.tags.map {|t| t.title}.join(',')
     mapped = self.tags.map do |t|
       t.title
     end
-    mapped.join(',')
+    mapped.join ','
   end
 
   def tag_list= new_value
-    tag_names = new_value.split(/,\s+/)
+    tag_names = new_value.split /,\s+/
     self.tags.destroy_all
     tag_names.each do |tag|
       if Tag.find_by title: tag
-        _new_tag = Tag.new(title: tag)
+        new_tag = Tag.new title: tag
         self.tags << _new_tag
       else
-        _new_tag = Tag.create(title: tag)
-        self.tags << _new_tag
+        new_tag = Tag.create title: tag
+        self.tags << new_tag
       end
     end
   end
