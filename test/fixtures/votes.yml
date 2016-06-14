@@ -2,10 +2,10 @@
 
 one:
   type: 
-  user_id_id: 
-  votable_id_id: 
+  user_id: 
+  votable_id: 
 
 two:
   type: 
-  user_id_id: 
-  votable_id_id: 
+  user_id: 
+  votable_id: 

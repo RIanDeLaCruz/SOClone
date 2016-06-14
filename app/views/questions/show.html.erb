@@ -1,6 +1,6 @@
-<%= link_to "Ask New Question", controller: "questions", action: "new" %>
-<%= link_to "See all Questions", controller: "questions", action: "index" %>
-<div class="card">
+<%= link_to 'Ask New Question', controller: 'questions', action: 'new' %>
+<%= link_to 'See all Questions', controller: 'questions', action: 'index' %>
+<div class='card'>
   <p>
     <strong>Title:</strong>
     <%= @question.title %>
@@ -14,45 +14,45 @@
     <h2>Tags</h2>
     <%= @question.tag_list %>
   </p>
+  <% if logged_in? && session[:user_id] == @question.user_id %>
+    <%= link_to 'Edit', edit_question_path(@question) %>
+    <%= link_to 'Delete', question_path(@question), method: :delete, data: {confirm: 'This can not be undone'} %>
+  <% end %>
   <p>
-    <%= @upvotes.length-@downvotes.length %>
+    <%= @question.total_votes %>
   </p>
-  <%= link_to "Upvote", question_votes_upvote_path(@question.id), method: :post %>
-  <%= link_to "Downvote", question_votes_downvote_path(@question.id), method: :post %>
+  <%= link_to 'Upvote', question_votes_upvote_path(@question.id), method: :post %>
+  <%= link_to 'Downvote', question_votes_downvote_path(@question.id), method: :post %>
 </div>
 <%= form_for :answer, url: question_answers_path(@question) do |f| %>
 <p>
-  <%= f.label "Answer" %><br>
+  <%= f.label 'Answer' %><br>
   <%= f.text_area :body %>
 </p>
 <p>
   <%= f.submit %>
 </p>
 <% end %>
-<ul style="list-style-type:none;">
+<ul style='list-style-type:none;'>
 <% @answers.each_with_index do |answer, index| %>
-  <li style="padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+  <li style='padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);'>
     <%= answer.body %>
-    <%= form_for :comment, url: question_answer_comments_path(@question, answer) do |f| %>
-    <p>
-      <%= f.label "Reply to Answer" %><br>
-      <%= f.text_area :body %>
-    </p>
-    <p>
-      <%= f.submit %>
-    </p>
+    <%= answer.total_votes %>
+    <%= link_to 'Upvote', answer_votes_upvote_path(answer), method: :post %>
+    <%= link_to 'Downvote', answer_votes_downvote_path(answer), method: :post %>
+    <ul style='list-style-type:none; margin-top: 20px;'>
+    <% answer.comments.each do |view_comment| %>
+      <li style='padding: 20px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);'>
+        <p><%= view_comment.body %>
+        <p style='padding-left: 20px;'><%= view_comment.user_id %>
+      </li>
     <% end %>
-    <% @comments = Comment.where(answer_id: params[:id], answer_id: answer[0]).pluck(:body) %>
-    <ul>
-      <% @comments.each do |comment|  %>
-        <li style="box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
-          <%= comment %>
-        </li>
-      <% end %>
-    </ul>
-    <%= @answers_upvotes[index].length-@answers_downvotes[index].length %>
-    <%= link_to "Upvote", answer_votes_upvote_path(answer), method: :post %>
-    <%= link_to "Downvote", answer_votes_downvote_path(answer), method: :post %>
-  </li>
+  </ul>
+</li>
+  <%= form_for :comment, url: answer_comments_path(answer) do |f| %>
+    <%= f.label 'Add Comment' %>
+    <%= f.text_area :body %>
+    <%= f.submit %>
+  <% end %>
 <% end %>
 </ul>

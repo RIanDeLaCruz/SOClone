@@ -1,0 +1,12 @@
+= form_for :question, url: questions_path do |f|
+  %p
+    = f.label :title
+    = f.text_field :title
+  %p
+    = f.label :content
+    = f.text_area :content
+  %p
+    = f.label :tags
+    = f.text_field :tag_list
+  %p
+    = f.submit

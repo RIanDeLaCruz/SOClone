@@ -1,6 +1,21 @@
 class Answer < ActiveRecord::Base
+  
   belongs_to :user
   belongs_to :question
-  has_many :comments
+  belongs_to :parent_post, :class_name => 'Answer'
+
+  has_many :comments, :class_name => 'Answer', :foreign_key => 'comments_id'
   has_many :votes, :as => :votable
+
+  accepts_nested_attributes_for :comments
+
+  
+  
+  
+  
+  def total_votes
+    self.votes.sum('vote_value')
+  end
+
 end
+

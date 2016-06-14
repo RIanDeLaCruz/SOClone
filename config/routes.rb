@@ -5,17 +5,24 @@ Rails.application.routes.draw do
     post 'votes/upvote'
     post 'votes/downvote'
     resources :answers, only: [:create] do
-      resources :comments, :only => :create
     end
   end
 
-  resources :answers, only: [] do
+  resources :answers, only: [:update, :edit] do
     post "votes/upvote"
     post "votes/downvote"
+    resources :comments, :only => :create
   end
 
   get 'tags' => 'tags#index'
   get 'tag/:title' => 'tags#show'
+
+  resources :users, path_names: { new: 'signup' } 
+
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
+  
   # get 'tag/:id'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

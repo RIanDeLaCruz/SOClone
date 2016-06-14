@@ -1,0 +1,16 @@
+%h1 Edit Question
+= form_for @question, method: :patch do |f|
+  -if @questions.errors.any?
+    = pluralize(@question.errors.count, "error") errors stopped this question from being saved
+    %ul
+      - @question.errors.fill_messages.each do |msg|
+        %li
+          = msg
+  = f.label :title
+  = f.text_field :title
+  = f.label :content
+  = f.text_area :content
+  = f.label :tags
+  = f.text_field :tag_list
+  = f.submit
+= link_to "Back", questions_path
